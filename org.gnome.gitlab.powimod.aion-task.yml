@@ -1,14 +1,30 @@
 app-id: org.gnome.gitlab.powimod.aion-task
-runtime: org.gnome.Platform
-runtime-version: '49'
-sdk: org.gnome.Sdk
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
 command: aion-task
 finish-args:
-  - '--share=ipc'
-  - '--socket=fallback-x11'
-  - '--socket=wayland'
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
 
 modules:
+  - name: libhandy
+    buildsystem: meson
+    config-opts:
+      - -Dintrospection=disabled
+      - -Dvapi=false
+      - -Dtests=false
+      - -Dexamples=false
+      - -Dglade_catalog=disabled
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/libhandy/1.8/libhandy-1.8.3.tar.xz
+        sha256: 05b497229073ff557f10b326e074c5066f8743a302d4820ab97bcb5cd2dab087
+
   - name: aion-task 
     buildsystem: meson
     sources:
